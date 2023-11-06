@@ -8,5 +8,4 @@ function lookupChar(string, index) {
     return string.charAt(index);
 }
 
-console.log(lookupChar("sasho", 4));
 module.exports = lookupChar;

@@ -18,3 +18,9 @@ let mathEnforcer = {
         return num1 + num2;
     }
 };
+
+console.log(mathEnforcer.addFive(2));
+console.log(mathEnforcer.subtractTen(10));
+console.log(mathEnforcer.sum(2, 5));
+
+module.exports = mathEnforcer;
