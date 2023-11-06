@@ -5,4 +5,7 @@ function isOddOrEven(string) {
     if (string.length % 2 === 0) {
         return "even";
     }
+    return "odd";
 }
+
+module.exports = isOddOrEven;
