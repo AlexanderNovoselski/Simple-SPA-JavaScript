@@ -1,1 +1,1 @@
-This repository is simply for exercising DOM Manipulation and functions, featuring some unit testing with mocha and chai.
+This repository is simply for exercising DOM Manipulation, functions and asynchronously programming, featuring some unit testing with mocha and chai.
