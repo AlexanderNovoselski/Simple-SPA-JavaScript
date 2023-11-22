@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Operations</title>
+    <script type="module" src="app.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <main id="main">
+        <div id="table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>name</th>
+                        <th>area</th>
+                        <th>year date start</th>
+                        <th>year date end</th>
+                        <th>Options</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                </tbody>
+
+            </table>
+        </div>
+
+        <button id="load-btn">Load</button>
+
+
+        <form id="create-form">
+            <div>
+                <label for="create-name">Name</label>
+                <input id="create-name" type="text" name="name">
+            </div>
+            <div>
+                <label for="create-area">Area</label>
+                <input id="create-area" type="text" name="area">
+            </div>
+            <div>
+                <label for="create-year-date-start">Year start</label>
+                <input id="create-year-date-start" type="number" name="yearStart">
+            </div>
+            <div>
+                <label for="create-year-date-end">Year end</label>
+                <input id="create-year-date-end" type="number" name="yearEnd">
+            </div>
+            <hr>
+            <button id="create-btn">Create</button>
+        </form>
+
+        <form id="edit-form">
+            <h2>Edit form</h2>
+            <input id="edit-id" name="id" hidden>
+            <div>
+                <label for="edit-name">Name</label>
+                <input id="edit-name" type="text" name="name">
+            </div>
+            <div>
+                <label for="edit-area">Area</label>
+                <input id="edit-area" type="text" name="area">
+            </div>
+            <div>
+                <label for="edit-year-date-start">Year start</label>
+                <input id="edit-year-date-start" type="number" name="yearStart">
+            </div>
+            <div>
+                <label for="edit-year-date-end">Year end</label>
+                <input id="edit-year-date-end" type="number" name="yearEnd">
+            </div>
+            <hr>
+            <button id="edit-btn">Edit</button>
+        </form>
+    </main>
+
+</body>
+
+</html>
