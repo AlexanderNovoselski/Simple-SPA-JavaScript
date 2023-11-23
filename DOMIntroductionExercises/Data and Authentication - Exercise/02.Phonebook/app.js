@@ -1,9 +1,8 @@
 let url = 'http://localhost:3030/jsonstore/phonebook';
-
 let phonebookUl = document.getElementById('phonebook');
-
 let person = document.getElementById('person');
 let phone = document.getElementById('phone');
+
 function attachEvents() {
     let btnLoad = document.getElementById('btnLoad');
     let btnCreate = document.getElementById('btnCreate');
@@ -13,8 +12,6 @@ function attachEvents() {
 }
 
 async function loadData() {
-    
-
     phonebookUl.innerHTML = '';
 
     let response = await fetch(url);
@@ -27,16 +24,17 @@ async function loadData() {
 
 async function createData() {
     try {
-        if(person.value && phone.value){
-            let obj = {person:person.value, phone:phone.value}
-            let options = {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(obj)};
+        if (person.value && phone.value) {
+            let obj = { person: person.value, phone: phone.value }
+            let options = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(obj) };
             let response = await fetch(url, options);
-            if(response.ok){
+            if (response.ok) {
                 person.value = '';
                 phone.value = '';
+                loadData();
             }
         }
-    } catch (error){
+    } catch (error) {
 
     }
 }
@@ -46,8 +44,10 @@ async function deletePhone(e) {
     let id = target.dataset.id;
     try {
         let options = { method: "DELETE" };
-        let response = await fetch(url+`/${id}`, options);
-        loadData()
+        let response = await fetch(`${url}/${id}`, options);
+        if (response.ok) {
+            loadData();
+        }
 
     } catch (error) {
 
