@@ -4,7 +4,8 @@ export function createForm({
     classes = [],
     attributes = [],
     textContent,
-    children = []
+    children = [],
+    style = {}
   }) {
     const element = document.createElement(elementName);
   
@@ -23,11 +24,16 @@ export function createForm({
     if (textContent) {
       element.textContent = textContent;
     }
+
+    Object.assign(element.style, style);
   
     children.forEach(child => {
       const childElement = createForm(child);
       element.appendChild(childElement);
     });
+
+    
   
     return element;
   }
+

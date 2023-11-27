@@ -1,5 +1,7 @@
-import { showLogin } from "./loginLogic.js";
+import { showHome } from "./homeLogic.js";
 
-let mainContainer = document.getElementById('container');
+let body = document.body;
 
-document.addEventListener('onload', showLogin(mainContainer))
+document.addEventListener('onload', showHome(body))
+
+//TODO add footer to all views
