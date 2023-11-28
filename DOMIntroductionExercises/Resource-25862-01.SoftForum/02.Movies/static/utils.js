@@ -1,3 +1,5 @@
+export const currentYear = new Date().getUTCFullYear();
+
 export function createForm({
     elementName = 'section',
     id,

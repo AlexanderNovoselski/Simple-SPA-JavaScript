@@ -1,4 +1,4 @@
-import { createForm } from "../static/utils.js";
+import { createForm, currentYear } from "../static/utils.js";
 import { showHome } from "./homeLogic.js";
 import { showLogin } from "./loginLogic.js";
 
@@ -188,6 +188,27 @@ const registerFormData = {
                             classes: ['btn', 'btn-primary'],
                             textContent: 'Register',
                             attributes: [{ name: 'type', value: 'submit' }]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            elementName: 'footer',
+            classes: ['page-footer', 'font-small'],
+
+            children: [
+                {
+                    elementName: 'div',
+                    classes: ['footer-copyright', 'text-center', 'py-3'],
+                    attributes: [{ name: 'type', value: 'submit' }],
+                    textContent: `\u00A9 ${currentYear} `,
+                    children: [
+                        {
+                            elementName: 'a',
+                            classes: ['text-dark'],
+                            attributes: [{ name: 'href', value: '#' },],
+                            textContent: 'Movies Application'
                         }
                     ]
                 }
