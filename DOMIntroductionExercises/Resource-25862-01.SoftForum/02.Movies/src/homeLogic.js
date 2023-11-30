@@ -6,12 +6,13 @@ import { showRegister } from "./registerLogic.js";
 
 let _body = document.body;
 
-export function showHome(mainDomElement) {
+export async function showHome(mainDomElement) {
   mainDomElement.innerHTML = '';
   let homeSection = createForm(homeSectionView);
   let moviesListUl = homeSection.querySelector('#movies-list');
 
-  fetchMovies(moviesListUl)
+  await showMovies(moviesListUl)
+  console.log(homeSection)
   handleUserStatusHideShow(homeSection);
 
   setupEventListeners(homeSection, _body);
@@ -19,16 +20,40 @@ export function showHome(mainDomElement) {
   mainDomElement.appendChild(homeSection);
 }
 
-async function fetchMovies(movieListUl) {
-  let fnc = createForm(createMovieSection(1, 'da','da', 'https://pbs.twimg.com/media/ETINgKwWAAAyA4r.jpg', 3))
-  let fnc2 = createForm(createMovieSection(2, 'da','da', 'https://pbs.twimg.com/media/ETINgKwWAAAyA4r.jpg', 3))
-  fnc.querySelector('#deleteBtn').dataset.movieId = 1;
-  fnc.querySelector('#editBtn').dataset.movieId = 1;
-  fnc.querySelector('#likeBtn').dataset.movieId = 1;
-  movieListUl.appendChild(fnc);
-  movieListUl.appendChild(fnc2);
+async function showMovies(movieListUl) {
+  let data = await getMovies();
+
+  Object.entries(data).forEach(([key, value]) => {
+    let movieId = value._id;
+    let ownerId = value._ownerId;
+    let title = value.title;
+    let description = value.description;
+    let img = value.img;
+
+    let section = createForm(createMovieSection(movieId, title, description, img, ownerId));
+    section.querySelector('#editBtn').dataset.movieId = movieId;
+    section.querySelector('#deleteBtn').dataset.movieId = movieId;
+    section.querySelector('#likeBtn').dataset.movieId = movieId;
+
+    movieListUl.appendChild(section);
+  })
 }
 
+async function getMovies() {
+  let url = "http://localhost:3030/data/movies";
+
+  try {
+    let response = await fetch(url);
+    let data = await response.json();
+
+    if (!response.ok) {
+      throw new Error('Response is not ok')
+    }
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 function setupEventListeners(homeSection, _body) {
   let loginBtn = homeSection.querySelector('#loginBtnNav');
@@ -44,7 +69,7 @@ function setupEventListeners(homeSection, _body) {
 
 function handleUserStatusHideShow(homeSection, movieId) {
 
-  let descriptionDiv = homeSection.querySelectorAll('#movieDescriptionData');
+  let descriptionDiv = homeSection.querySelectorAll('.movieDescriptionData');
   if (isUserLogged()) {
     let welcomeMsg = homeSection.querySelector('#welcome-msg');
     let loginBtn = homeSection.querySelector('#loginBtnLi');
@@ -58,14 +83,14 @@ function handleUserStatusHideShow(homeSection, movieId) {
     let logoutBtn = homeSection.querySelector('#logoutBtnLi');
     let addMovieBtn = homeSection.querySelector('#add-movie-button');
 
-    //Hide ev.innerHTMLshow only a details button
+    //Hide ev.innerHTML show only a details button
     descriptionDiv.forEach(element => {
       element.innerHTML = '';
 
       let details = createForm(detailsBtn);
       element.appendChild(details);
     });
-    
+
     logoutBtn.style.display = 'none';
     addMovieBtn.style.display = 'none';
   }

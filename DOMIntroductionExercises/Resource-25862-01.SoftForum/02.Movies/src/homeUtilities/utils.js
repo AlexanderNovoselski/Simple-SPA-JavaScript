@@ -5,7 +5,7 @@ export function createMovieSection(
     title,
     description,
     image,
-    ownerId,
+    ownerId,    
 ) {
     const section = {
         elementName: 'li',
@@ -17,6 +17,7 @@ export function createMovieSection(
                 children: [
                     {
                         elementName: 'div',
+                        id: 'movieDiv',
                         classes: ['container'],
                         children: [
                             {
@@ -43,8 +44,7 @@ export function createMovieSection(
                                     },
                                     {
                                         elementName: 'div',
-                                        id: 'movieDescriptionData',
-                                        classes: ['col-md-4', 'text-center'],
+                                        classes: ['col-md-4', 'text-center', 'movieDescriptionData'],
                                         children: [
                                             {
                                                 elementName: 'h3',
