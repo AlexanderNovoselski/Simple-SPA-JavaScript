@@ -50,6 +50,7 @@ async function register(e) {
         sessionStorage.setItem('isLogged', true);
         sessionStorage.setItem('email', data.email);
         sessionStorage.setItem('accessToken', data.accessToken);
+        sessionStorage.setItem('id', data._id);
 
         showHome(_body);
 

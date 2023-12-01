@@ -47,6 +47,7 @@ async function login(e) {
             sessionStorage.setItem('email', data.email);
             sessionStorage.setItem('isLogged', true);
             sessionStorage.setItem('accessToken', data.accessToken);
+            sessionStorage.setItem('id', data._id);
 
             showHome(_body);
         }

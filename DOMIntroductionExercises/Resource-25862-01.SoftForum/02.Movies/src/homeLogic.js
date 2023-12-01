@@ -1,4 +1,4 @@
-import { createForm } from "../static/utils.js";
+import { createForm, getAccessToken, isUserLogged } from "../static/utils.js";
 import { createMovieSection, detailsBtn, homeSectionView } from "./homeUtilities/utils.js";
 import { showLogin } from "./loginLogic.js";
 import { logout } from "./logoutLogic.js";
@@ -12,9 +12,8 @@ export async function showHome(mainDomElement) {
   let moviesListUl = homeSection.querySelector('#movies-list');
 
   await showMovies(moviesListUl)
-  console.log(homeSection)
   handleUserStatusHideShow(homeSection);
-
+  manageMovieButtons(homeSection);
   setupEventListeners(homeSection, _body);
 
   mainDomElement.appendChild(homeSection);
@@ -31,12 +30,35 @@ async function showMovies(movieListUl) {
     let img = value.img;
 
     let section = createForm(createMovieSection(movieId, title, description, img, ownerId));
-    section.querySelector('#editBtn').dataset.movieId = movieId;
-    section.querySelector('#deleteBtn').dataset.movieId = movieId;
-    section.querySelector('#likeBtn').dataset.movieId = movieId;
+    let editBtn = section.querySelector('#editBtn')
+    let deleteBtn = section.querySelector('#deleteBtn');
+    let likeBtn = section.querySelector('#likeBtn')
+
+    editBtn.dataset.movieId = movieId;
+    deleteBtn.dataset.movieId = movieId
+    likeBtn.dataset.movieId = movieId;
+    deleteBtn.addEventListener('click', (e) => deleteMovie(e)) //TODO add all eventlisteners in the method
 
     movieListUl.appendChild(section);
   })
+}
+
+async function deleteMovie(e) {
+  e.preventDefault();
+  let target = e.target;
+  let movieId = target.dataset.movieId;
+  let url = `http://localhost:3030/data/movies/` + movieId;
+  if (getAccessToken) {
+    try {
+      // TODO maybe add a popup to ask before deletion
+      await fetch(url, { method: 'DELETE', headers: { 'X-Authorization': sessionStorage.getItem('accessToken') } })
+      showHome(_body);
+    } catch (error) {
+
+    }
+  }
+
+
 }
 
 async function getMovies() {
@@ -67,9 +89,7 @@ function setupEventListeners(homeSection, _body) {
   homePageBtn.addEventListener('click', () => showHome(_body));
 }
 
-function handleUserStatusHideShow(homeSection, movieId) {
-
-  let descriptionDiv = homeSection.querySelectorAll('.movieDescriptionData');
+function handleUserStatusHideShow(homeSection) {
   if (isUserLogged()) {
     let welcomeMsg = homeSection.querySelector('#welcome-msg');
     let loginBtn = homeSection.querySelector('#loginBtnLi');
@@ -83,21 +103,30 @@ function handleUserStatusHideShow(homeSection, movieId) {
     let logoutBtn = homeSection.querySelector('#logoutBtnLi');
     let addMovieBtn = homeSection.querySelector('#add-movie-button');
 
-    //Hide ev.innerHTML show only a details button
-    descriptionDiv.forEach(element => {
-      element.innerHTML = '';
-
-      let details = createForm(detailsBtn);
-      element.appendChild(details);
-    });
-
     logoutBtn.style.display = 'none';
     addMovieBtn.style.display = 'none';
   }
+
 }
 
-function isUserLogged() {
-  if (sessionStorage.getItem('accessToken')) {
-    return true;
-  }
+function manageMovieButtons(homeSection) {
+  let userId = sessionStorage.getItem('id');
+  let movieListLis = homeSection.querySelectorAll('#movies-list li');
+
+  movieListLis.forEach(item => {
+    let ownerId = item.querySelector('#movieOwnerId').value;
+    let descriptionDiv = item.querySelector('.movieDescriptionData');
+
+    if ((isUserLogged() && ownerId !== userId) || !isUserLogged()) {
+      // Show details button for movies not owned by the logged-in user
+      descriptionDiv.innerHTML = '';
+
+      let details = createForm(detailsBtn);
+      descriptionDiv.appendChild(details);
+    }
+
+
+  });
 }
+
+
