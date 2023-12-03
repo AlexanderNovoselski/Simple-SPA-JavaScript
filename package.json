@@ -1,7 +1,8 @@
 {
   "devDependencies": {
     "chai": "^4.3.10",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "playwright-chromium": "^1.40.1"
   },
   "name": "js-dom-projects",
   "description": "This repository is simply for exercising DOM Manipulation and functions, featuring some unit testing with mocha and chai.",

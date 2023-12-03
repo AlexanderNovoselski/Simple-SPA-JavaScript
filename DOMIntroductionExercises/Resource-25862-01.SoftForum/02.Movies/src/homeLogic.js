@@ -3,6 +3,7 @@ import { createMovieSection, detailsBtn, homeSectionView } from "./homeUtilities
 import { showLogin } from "./loginLogic.js";
 import { logout } from "./logoutLogic.js";
 import { showRegister } from "./registerLogic.js";
+import { showEditMovie } from "./showEditMovie.js";
 
 let _body = document.body;
 
@@ -22,7 +23,7 @@ export async function showHome(mainDomElement) {
 async function showMovies(movieListUl) {
   let data = await getMovies();
 
-  Object.entries(data).forEach(([key, value]) => {
+  Object.values(data).forEach((value) => {
     let movieId = value._id;
     let ownerId = value._ownerId;
     let title = value.title;
@@ -30,14 +31,16 @@ async function showMovies(movieListUl) {
     let img = value.img;
 
     let section = createForm(createMovieSection(movieId, title, description, img, ownerId));
-    let editBtn = section.querySelector('#editBtn')
+    let editBtn = section.querySelector('#editBtn');
     let deleteBtn = section.querySelector('#deleteBtn');
-    let likeBtn = section.querySelector('#likeBtn')
+    let likeBtn = section.querySelector('#likeBtn');
 
     editBtn.dataset.movieId = movieId;
     deleteBtn.dataset.movieId = movieId
     likeBtn.dataset.movieId = movieId;
-    deleteBtn.addEventListener('click', (e) => deleteMovie(e)) //TODO add all eventlisteners in the method
+    editBtn.addEventListener('click', (e) => showEditMovie(e, _body, title, description, img))
+    deleteBtn.addEventListener('click', (e) => deleteMovie(e))
+    // likeBtn.addEventListener('click', (e) => deleteMovie(e))
 
     movieListUl.appendChild(section);
   })
@@ -57,8 +60,6 @@ async function deleteMovie(e) {
 
     }
   }
-
-
 }
 
 async function getMovies() {
@@ -78,6 +79,8 @@ async function getMovies() {
 }
 
 function setupEventListeners(homeSection, _body) {
+
+  // Nav buttons
   let loginBtn = homeSection.querySelector('#loginBtnNav');
   let registerBtn = homeSection.querySelector('#registerBtnNav');
   let homePageBtn = homeSection.querySelector('#homePageBtnNav');
@@ -87,6 +90,7 @@ function setupEventListeners(homeSection, _body) {
   logoutBtnNav.addEventListener('click', () => logout(_body));
   registerBtn.addEventListener('click', () => showRegister(_body));
   homePageBtn.addEventListener('click', () => showHome(_body));
+  
 }
 
 function handleUserStatusHideShow(homeSection) {

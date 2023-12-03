@@ -89,4 +89,7 @@
     padding: 5px 10px;
     border-radius: 5px;
   }
-  
+
+  #backBtn {
+    margin-left: 10px;
+}
