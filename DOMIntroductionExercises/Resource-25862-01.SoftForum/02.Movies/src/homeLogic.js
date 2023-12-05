@@ -3,7 +3,7 @@ import { createMovieSection, detailsBtn, homeSectionView } from "./homeUtilities
 import { showLogin } from "./loginLogic.js";
 import { logout } from "./logoutLogic.js";
 import { showRegister } from "./registerLogic.js";
-import { showEditMovie } from "./showEditMovie.js";
+import { showEditMovie } from "./editMovie.js";
 
 let _body = document.body;
 
@@ -24,6 +24,7 @@ async function showMovies(movieListUl) {
   let data = await getMovies();
 
   Object.values(data).forEach((value) => {
+
     let movieId = value._id;
     let ownerId = value._ownerId;
     let title = value.title;
@@ -38,7 +39,7 @@ async function showMovies(movieListUl) {
     editBtn.dataset.movieId = movieId;
     deleteBtn.dataset.movieId = movieId
     likeBtn.dataset.movieId = movieId;
-    editBtn.addEventListener('click', (e) => showEditMovie(e, _body, title, description, img))
+    editBtn.addEventListener('click', (e) => showEditMovie(e, _body, title, description, img, movieId))
     deleteBtn.addEventListener('click', (e) => deleteMovie(e))
     // likeBtn.addEventListener('click', (e) => deleteMovie(e))
 
